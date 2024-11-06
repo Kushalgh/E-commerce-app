@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { upload } from '../../middleware/multer.middleware';
 import { MulterError } from 'multer';
+import path from 'path'; // Import path for handling file paths
 import FileUpload from './upload.model';
 
 export const uploadController = async (req: Request, res: Response, next: NextFunction) => {
@@ -18,9 +19,12 @@ export const uploadController = async (req: Request, res: Response, next: NextFu
 
       const file = req.file;
 
+      // Get the relative path from 'public/uploads'
+      const relativeFilePath = path.relative('public', file.path);
+
       const newFile = await FileUpload.create({
         filename: file.filename,
-        filepath: file.path,
+        filepath: `/${relativeFilePath}`, // Save the path relative to 'public'
       });
 
       return res.send({
@@ -28,7 +32,7 @@ export const uploadController = async (req: Request, res: Response, next: NextFu
         file: {
           id: newFile.id,
           filename: newFile.filename,
-          filepath: newFile.filepath,
+          filepath: newFile.filepath, // The path stored will be relative
         },
       });
     } catch (error) {

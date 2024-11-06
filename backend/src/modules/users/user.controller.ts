@@ -1,11 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import * as userService from "./user.service";
+import { Request, Response, NextFunction } from 'express';
+import * as userService from './user.service';
 
-export const register = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userService.register(req.body);
     res.status(201).json(result);
@@ -14,11 +10,7 @@ export const register = async (
   }
 };
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userService.login(req.body);
     res.json(result);
@@ -27,11 +19,7 @@ export const login = async (
   }
 };
 
-export const getUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userService.getUser(parseInt(req.params.id));
     res.json(result);
@@ -40,11 +28,7 @@ export const getUser = async (
   }
 };
 
-export const getUsers = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userService.getAllUsers();
     res.json(result);
@@ -53,27 +37,16 @@ export const getUsers = async (
   }
 };
 
-export const updateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await userService.updateUser(
-      parseInt(req.params.id),
-      req.body,
-    );
+    const result = await userService.updateUser(parseInt(req.params.id), req.body);
     res.json(result);
   } catch (error) {
     next(error);
   }
 };
 
-export const deleteUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await userService.deleteUser(parseInt(req.params.id));
     res.status(204).send();

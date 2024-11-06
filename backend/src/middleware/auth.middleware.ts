@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { MESSAGES } from "../utils/constants";
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import { MESSAGES } from '../utils/constants';
 
 declare global {
   namespace Express {
@@ -10,12 +10,8 @@ declare global {
   }
 }
 
-export const authMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
     res.status(401).json(MESSAGES.NO_TOKEN_AUTH_DENIED);
@@ -33,12 +29,8 @@ export const authMiddleware = (
   }
 };
 
-export const authorizeMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
+export const authorizeMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
     res.status(401).json(MESSAGES.NO_TOKEN_AUTH_DENIED);
@@ -52,13 +44,13 @@ export const authorizeMiddleware = (
     };
     const role = decoded.role;
 
-    console.log("Decoded Toekd: ", decoded, "Role: ", role);
-    if (role === "admin") {
+    console.log('Decoded Toekd: ', decoded, 'Role: ', role);
+    if (role === 'admin') {
       next();
     } else {
       throw Error;
     }
   } catch (error) {
-    res.status(403).json("Unauthorized to access : NOT AN ADMIN");
+    res.status(403).json('Unauthorized to access : NOT AN ADMIN');
   }
 };

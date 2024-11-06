@@ -1,7 +1,6 @@
 import express from 'express';
 import * as productController from './product.controller';
 import { authMiddleware, authorizeMiddleware } from '../../middleware/auth.middleware';
-import { upload } from '../../middleware/multer.middleware';
 
 const router = express.Router();
 

@@ -1,17 +1,9 @@
-import * as productService from "./product.service";
-import {
-  successResponse,
-  errorResponse,
-  paginationSuccessResponse,
-} from "../../utils/response";
-import { MESSAGES } from "../../utils/constants";
-import { Response, NextFunction, Request } from "express";
+import * as productService from './product.service';
+import { successResponse, errorResponse, paginationSuccessResponse } from '../../utils/response';
+import { MESSAGES } from '../../utils/constants';
+import { Response, NextFunction, Request } from 'express';
 
-export const createProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> => {
+export const createProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { product, errors } = await productService.createProduct(req.body);
 
@@ -25,17 +17,10 @@ export const createProduct = async (
   }
 };
 
-export const updateProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const productId = parseInt(req.params.id);
-    const { product, errors } = await productService.updateProduct(
-      productId,
-      req.body,
-    );
+    const { product, errors } = await productService.updateProduct(productId, req.body);
 
     if (errors) {
       return errorResponse(res, 400, MESSAGES.VALIDATION_FAILED, errors);
@@ -51,11 +36,7 @@ export const updateProduct = async (
   }
 };
 
-export const getAllProducts = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
@@ -76,11 +57,7 @@ export const getAllProducts = async (
   }
 };
 
-export const getProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const productId = parseInt(req.params.id);
     const product = await productService.getProductById(productId);
@@ -95,11 +72,7 @@ export const getProduct = async (
   }
 };
 
-export const deleteProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const deleteProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const productId = parseInt(req.params.id);
     const deleted = await productService.deleteProduct(productId);
@@ -112,4 +85,10 @@ export const deleteProduct = async (
   } catch (error) {
     next(error);
   }
+};
+
+export const saveProductWithImage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id;
+  } catch (error) {}
 };

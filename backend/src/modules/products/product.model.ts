@@ -1,5 +1,7 @@
-import { DataTypes, Model, Optional } from "sequelize";
-import sequelize from "../../config/database";
+// models/products/product.model.ts
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../../config/database';
+import FileUpload from '../uploads/upload.model';
 
 export interface ProductAttributes {
   id: number;
@@ -7,16 +9,14 @@ export interface ProductAttributes {
   description: string;
   price: number;
   stock: number;
+  image_id: number;
 }
 
-export interface ProductCreationAttributes
-  extends Optional<ProductAttributes, "id"> {}
+export interface ProductCreationAttributes extends Optional<ProductAttributes, 'id'> {}
 
-export interface ProductInstance
-  extends Model<ProductAttributes, ProductCreationAttributes>,
-    ProductAttributes {}
+export interface ProductInstance extends Model<ProductAttributes, ProductCreationAttributes>, ProductAttributes {}
 
-const Product = sequelize.define<ProductInstance>("Product", {
+const Product = sequelize.define<ProductInstance>('Product', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -38,6 +38,19 @@ const Product = sequelize.define<ProductInstance>("Product", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  image_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: FileUpload,
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
 });
+
+Product.belongsTo(FileUpload, { foreignKey: 'image_id', as: 'image' });
+FileUpload.hasMany(Product, { foreignKey: 'image_id' });
 
 export default Product;
