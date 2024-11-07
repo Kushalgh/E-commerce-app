@@ -14,9 +14,10 @@ import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../common/utils/store/store";
 import { addItem } from "../common/utils/store/reducers/cart-reducer";
+import { toast } from "sonner";
 
 interface ProductCardPropTypes {
-  id: string;
+  id: number;
   name: string;
   description: string;
   price: number;
@@ -38,18 +39,20 @@ const ProductCard = ({
 
   console.log("here", name);
 
-  const handleIncrement = (id: string) => {
-    const itemExists = cartItems.find((item) => item.id === id.toString());
+  const handleIncrement = (id: number) => {
+    console.log(id);
+    const itemExists = cartItems.find((item) => item.id === id);
     // if (itemExists) {
     dispatch(
       addItem({
-        id: id?.toString(),
+        id: id,
         image: imageUrl,
         name: name,
         price,
         quantity: 1,
       })
     );
+    toast("Added to Cart Successfully");
     // }
   };
 

@@ -18,7 +18,6 @@ export interface CheckoutBodyItem {
 
 export const createCheckoutSession = async (req: Request, res: Response) => {
   const body = req.body;
-  console.log(body, 'Hancy');
 
   try {
     const line_items = body?.products?.map((product: any) => ({
@@ -32,13 +31,13 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
       },
       quantity: product?.quantity,
     }));
-
+    console.log(req.get('origin'), 'Origin');
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: line_items,
       mode: 'payment',
-      success_url: `${req.protocol}://${req.get('host')}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.protocol}://${req.get('host')}/cancel`,
+      success_url: `${req.get('origin')}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.get('origin')}/cancel`,
     });
 
     res.status(200).json({

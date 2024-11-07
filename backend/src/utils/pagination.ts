@@ -1,4 +1,4 @@
-import { FindOptions } from "sequelize";
+import { FindOptions } from 'sequelize';
 
 export interface PaginationOptions {
   page?: number;
@@ -12,9 +12,7 @@ export interface PaginatedResult<T> {
   totalPages: number;
 }
 
-export const getPaginationOptions = (
-  options: PaginationOptions,
-): { limit: number; offset: number } => {
+export const getPaginationOptions = (options: PaginationOptions): { limit: number; offset: number } => {
   const page = options.page || 1;
   const limit = options.limit || 10;
   const offset = (page - 1) * limit;
@@ -22,12 +20,7 @@ export const getPaginationOptions = (
   return { limit, offset };
 };
 
-export const paginateResults = <T>(
-  data: T[],
-  totalItems: number,
-  page: number,
-  limit: number,
-): PaginatedResult<T> => {
+export const paginateResults = <T>(data: T[], totalItems: number, page: number, limit: number): PaginatedResult<T> => {
   const totalPages = Math.ceil(totalItems / limit);
 
   return {
@@ -38,8 +31,6 @@ export const paginateResults = <T>(
   };
 };
 
-export const withPagination = (
-  options: PaginationOptions,
-): Pick<FindOptions, "limit" | "offset"> => {
+export const withPagination = (options: PaginationOptions): Pick<FindOptions, 'limit' | 'offset'> => {
   return getPaginationOptions(options);
 };

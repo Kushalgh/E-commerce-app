@@ -9,6 +9,7 @@ import userRoutes from './modules/users/user.routes';
 import uploadRoute from './modules/uploads/upload.route';
 import path from 'path';
 import checkOutRoute from './modules/payment/payment.route';
+import categoryRoute from './modules/categories/categories.route';
 import Stripe from 'stripe';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoute);
 
 app.use('/api/checkout', checkOutRoute);
+app.use('/api', categoryRoute);
 
 app.use(errorHandler);
 

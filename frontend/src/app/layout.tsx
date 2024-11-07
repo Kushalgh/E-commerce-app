@@ -1,4 +1,5 @@
 "use client";
+import { Toaster } from "sonner";
 import ReduxProvider from "./common/Provider";
 import Navbar from "./components/Navbar";
 import "./globals.css";
@@ -20,6 +21,15 @@ export default function RootLayout({
           <Navbar />
           {children}
         </ReduxProvider>
+        <Toaster
+          toastOptions={{
+            style: {
+              background: "#65c28c",
+              color: "white",
+            },
+            className: "class",
+          }}
+        />
       </body>
     </html>
   );

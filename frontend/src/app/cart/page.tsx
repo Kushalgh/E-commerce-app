@@ -19,7 +19,7 @@ export default function CartPage() {
     (total, item) => total + item.price * item.quantity,
     0
   );
-  const shipping = 10; // You might want to calculate this based on your business logic
+  const shipping = 10;
   const total = subtotal + shipping;
 
   const handleCheckout = () => {

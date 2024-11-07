@@ -6,6 +6,7 @@ export const createProductSchema = z.object({
   price: z.number().positive('Price must be a positive number'),
   stock: z.number().int('Stock must be an integer').nonnegative('Stock must be non-negative'),
   image_id: z.number({ required_error: 'ImageId is required', invalid_type_error: 'Id must be an integer' }),
+  category_id: z.number({ required_error: 'Category Id is required', invalid_type_error: 'Id must be an integer' }),
 });
 
 export const updateProductSchema = createProductSchema.partial();

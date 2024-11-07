@@ -30,7 +30,7 @@ CartItems) => {
   const handleIncrement = () => {
     dispatch(
       addItem({
-        id: id?.toString(),
+        id: id,
         image,
         name: productName,
         price,
@@ -48,7 +48,6 @@ CartItems) => {
     dispatch(deleteItem(id.toString()));
   };
 
-  const makePayment = async () => {};
   return (
     <tr className="border-b">
       <td className="py-4 px-4">

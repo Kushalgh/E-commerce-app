@@ -28,8 +28,10 @@ export const findAllProducts = async (
     image_id: number;
     price: number;
     stock: number;
+    category_id: number;
     image: { id: number; filepath: string } | null;
   }[];
+
   count: number;
 }> => {
   const products: { rows: ProductWithImage[]; count: number } = await Product.findAndCountAll({
@@ -50,6 +52,7 @@ export const findAllProducts = async (
     description: product.description,
     price: product.price,
     image_id: product?.image_id,
+    category_id: product?.category_id,
     stock: product.stock,
     image: product?.image ? { id: product?.image?.id, filepath: product.image.filepath } : null,
   }));

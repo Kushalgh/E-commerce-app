@@ -1,12 +1,8 @@
-import { Response } from "express";
-import { MESSAGES } from "./constants";
+import { Response } from 'express';
+import { MESSAGES } from './constants';
 
 // Success response
-export const successResponse = <T>(
-  res: Response,
-  message: string,
-  data?: T,
-) => {
+export const successResponse = <T>(res: Response, message: string, data?: T) => {
   return res.status(200).json({
     success: true,
     message: message || MESSAGES.REQUEST_SUCCESS,
@@ -15,12 +11,7 @@ export const successResponse = <T>(
 };
 
 //Error response
-export const errorResponse = (
-  res: Response,
-  statusCode: number,
-  message: string = MESSAGES.REQUEST_ERROR,
-  errors?: any[],
-): void => {
+export const errorResponse = (res: Response, statusCode: number, message: string = MESSAGES.REQUEST_ERROR, errors?: any[]): void => {
   res.status(statusCode).json({
     success: false,
     message,
@@ -36,9 +27,10 @@ export const paginationSuccessResponse = <T>(
   totalPages: number,
   message?: string,
 ) => {
+  console.log('I am here');
   return res.status(200).json({
     success: true,
-    message: message || "Data retrieved successfully.",
+    message: message || 'Data retrieved successfully.',
     data,
     pagination: {
       totalItems,

@@ -11,6 +11,7 @@ const createProductSchema = z.object({
   price: z.number().positive({ message: 'Price must be a positive number.' }),
   stock: z.number().int().nonnegative({ message: 'Stock must be a non-negative integer.' }),
   image_id: z.number({ required_error: 'ImageId is required', invalid_type_error: 'Id must be an integer' }),
+  category_id: z.number({ required_error: 'CategoryId is required', invalid_type_error: 'Id must be an integer' }),
 });
 
 type ValidationResult<T> = { success: true; data: T } | { success: false; errors: z.ZodError['errors'] };
@@ -37,10 +38,10 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
       return errorResponse(res, 422, MESSAGES.VALIDATION_FAILED, validationResult.errors);
     }
 
-    const productData: CreateProductDto = validationResult.data; // Safe to access data
+    const productData: CreateProductDto = validationResult.data;
 
-    // const product = await productService.createProduct(productData);
-    // successResponse(res, MESSAGES.PRODUCT_CREATED_SUCCESS, product);
+    const product = await productService.createProduct(productData);
+    successResponse(res, MESSAGES.PRODUCT_CREATED_SUCCESS, product);
   } catch (error) {
     next(error);
   }
