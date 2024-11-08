@@ -34,33 +34,64 @@ export const findAllProducts = async (
 
   count: number;
 }> => {
-  const products: { rows: ProductWithImage[]; count: number } = await Product.findAndCountAll({
-    include: [
-      {
-        model: FileUpload,
-        as: 'image',
-        attributes: ['id', 'filepath'],
+  console.log('options?.params?.category_id', options?.params);
+
+  if (options?.params?.category_id) {
+    const products: { rows: ProductWithImage[]; count: number } = await Product.findAndCountAll({
+      where: {
+        category_id: options?.params?.category_id,
       },
-    ],
-    ...withPagination(options),
-  });
+      include: [
+        {
+          model: FileUpload,
+          as: 'image',
+          attributes: ['id', 'filepath'],
+        },
+      ],
+      ...withPagination(options),
+    });
+    const formattedProducts = products.rows.map((product) => ({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      image_id: product?.image_id,
+      category_id: product?.category_id,
+      stock: product.stock,
+      image: product?.image ? { id: product?.image?.id, filepath: product.image.filepath } : null,
+    }));
 
-  // Map the response to include only the required fields
-  const formattedProducts = products.rows.map((product) => ({
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    price: product.price,
-    image_id: product?.image_id,
-    category_id: product?.category_id,
-    stock: product.stock,
-    image: product?.image ? { id: product?.image?.id, filepath: product.image.filepath } : null,
-  }));
+    return {
+      rows: formattedProducts,
+      count: products.count,
+    };
+  } else {
+    const products: { rows: ProductWithImage[]; count: number } = await Product.findAndCountAll({
+      include: [
+        {
+          model: FileUpload,
+          as: 'image',
+          attributes: ['id', 'filepath'],
+        },
+      ],
+      ...withPagination(options),
+    });
+    const formattedProducts = products.rows.map((product) => ({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      image_id: product?.image_id,
+      category_id: product?.category_id,
+      stock: product.stock,
+      image: product?.image ? { id: product?.image?.id, filepath: product.image.filepath } : null,
+    }));
 
-  return {
-    rows: formattedProducts,
-    count: products.count,
-  };
+    return {
+      rows: formattedProducts,
+      count: products.count,
+    };
+  }
 };
 
 export const updateProduct = async (id: number, productData: UpdateProductDto): Promise<[number, ProductAttributes[]]> => {

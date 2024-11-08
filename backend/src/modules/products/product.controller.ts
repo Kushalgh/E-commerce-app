@@ -43,6 +43,10 @@ export const getAllProducts = async (req: Request, res: Response, next: NextFunc
     const paginatedProducts = await productService.getAllProducts({
       page,
       limit,
+
+      params: {
+        category_id: req.query.category_id as string,
+      },
     });
     paginationSuccessResponse(
       res,

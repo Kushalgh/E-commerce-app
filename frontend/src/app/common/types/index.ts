@@ -14,3 +14,8 @@ export interface CartItem {
   id: string | number;
   neQuantity: number;
 }
+
+export interface CategoryItem {
+  id: string | number;
+  category_name: string;
+}

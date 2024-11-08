@@ -3,6 +3,9 @@ import { FindOptions } from 'sequelize';
 export interface PaginationOptions {
   page?: number;
   limit?: number;
+  params?: {
+    category_id?: string;
+  };
 }
 
 export interface PaginatedResult<T> {

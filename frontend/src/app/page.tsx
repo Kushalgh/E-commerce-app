@@ -1,20 +1,27 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getProducts } from "./common/services/product.service";
+import { getCategory, getProducts } from "./common/services/product.service";
 import ProductCard from "./components/ProductCard";
-import { ProductList } from "./common/types";
+import { CategoryItem, ProductList } from "./common/types";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [data, setData] = useState<ProductList[]>([]);
 
+  const searchParams = useSearchParams();
+
+  const categoryId = searchParams.get("productId");
+
   const getData = async () => {
-    const { data: data1 } = await getProducts();
+    const { data: data1 } = await getProducts({
+      category_id: categoryId,
+    });
     setData(data1);
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [categoryId]);
 
   const checkStock = (quantity: number, stock: number) => quantity > stock;
 
